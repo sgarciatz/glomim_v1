@@ -78,7 +78,7 @@ class UAV(object):
     def __str__(self) -> str:
         microservicesString = ''
         for ms in self.__microservices:
-            microservicesString += f'{ms.id} '
+            microservicesString += f'{ms} '
         return f'UAV id: self.__id\n\t-Position: {self.__position}\n\t-RAM: {self.__ramCapacity} (capacity) {self.__ramAllocated} (allocated) \n\t-CPU: {self.__cpuCapacity} (capacity) {self.__cpuAllocated} (allocated)\n\t-Microservices: {microservicesString}'
         
     def toJSON(self) -> dict:
@@ -89,6 +89,6 @@ class UAV(object):
             'ramAllocated'  : self.__ramAllocated,
             'cpuCapacity'   : self.__cpuCapacity,
             'cpuAllocated'  : self.__cpuAllocated,
-            'microservices' : [ ms.id for ms in self.__microservices]
+            'microservices' : [ ms for ms in self.__microservices]
             }
         return json

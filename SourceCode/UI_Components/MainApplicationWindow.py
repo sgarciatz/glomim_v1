@@ -11,11 +11,14 @@ from .UAVLabel import UAVLabel
 from DataTypes.Scenario import Scenario
 from DataTypes.Microservice import Microservice
 from .MicroserviceLabel import MicroserviceLabel
+from Solvers.GLOMIP import GLOMIP
 import json
 import pathlib
 from functools import partial
 
 class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
+    
+    
     def __init__(self):
         super(MainApplicationWindow, self).__init__()
         self.setupUi(self)
@@ -27,6 +30,9 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
         self.actionAdd_Microservice.triggered.connect(self.addMicroservice)
         self.actionGLOSIP.triggered.connect(self.solveWithGLOSIP)
         self.actionGLOMIP.triggered.connect(self.solveWithGLOMIP)
+        self.actionDeployment_View.triggered.connect(self.displayDeployment)
+        
+        
         
     def createNewScenario(self, MainWindow):
         # Open the dialog to create the scenario
@@ -56,7 +62,7 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
             print('Could not load existing scenario')
 
     def saveScenario(self):
-            scenariosDir : pathlib.Path = pathlib.Path().resolve().parent.parent.parent.absolute() / 'InputScenarios'
+            scenariosDir : pathlib.Path = pathlib.Path().resolve().parent.absolute() / 'InputScenarios'
             scenarioToSave : Scenario   = Database().scenario 
             fileName : str              = scenarioToSave.scenarioName + '.json'
             with open(scenariosDir / fileName, 'wt') as outputFile:
@@ -89,15 +95,19 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
         self.scenario = Database().scenario
         pixmap: QtGui.QPixmap = QtGui.QPixmap(self.scenario.backgroundImg)
         shape: QtCore.QSize = QtGui.QPixmap(self.scenario.backgroundImg).size()
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(9, 9, shape.width(), shape.height()))
+        print(shape)
+        # Scale the image to fit the window size
+        shape = self.scaleImageToFitGrid(shape)
+        print(shape)
         
         # Calculate the size of each Pixmap
         croppingSize: QtCore.QSize = QtCore.QSize(shape.width() / self.scenario.shape[1], shape.height() / self.scenario.shape[0])
-        
+
         for row in range(self.scenario.shape[0]):
             for column in range(self.scenario.shape[1]):
                 label = QtWidgets.QLabel()
-                croppedPixmap = QtGui.QPixmap(self.scenario.backgroundImg).copy(column * croppingSize.width(), row * croppingSize.height(), croppingSize.width(), croppingSize.height())
+                croppedPixmap = pixmap.scaled(shape).copy(column * croppingSize.width(), row * croppingSize.height(), croppingSize.width(), croppingSize.height())
+
                 label.resize(croppingSize)
                 label.setPixmap(croppedPixmap.scaled(label.size(), QtCore.Qt.KeepAspectRatio))
                 self.gridLayout.addWidget(label, row, column)
@@ -109,15 +119,17 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
         self.scenario = Database().scenario
         pixmap: QtGui.QPixmap = QtGui.QPixmap(self.scenario.backgroundImg)
         shape: QtCore.QSize = QtGui.QPixmap(self.scenario.backgroundImg).size()
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(9, 9, shape.width(), shape.height()))
+        #self.gridLayoutWidget.setGeometry(QtCore.QRect(9, 9, shape.width(), shape.height()))
         
+        # Scale the grid to fit the image
+        shape = self.scaleImageToFitGrid(shape)
         # Calculate the size of each Pixmap
         croppingSize: QtCore.QSize = QtCore.QSize(shape.width() / self.scenario.shape[1], shape.height() / self.scenario.shape[0])
         
         for row in range(self.scenario.shape[0]):
             for column in range(self.scenario.shape[1]):
                 label = UAVLabel([row, column])
-                croppedPixmap = QtGui.QPixmap(self.scenario.backgroundImg).copy(column * croppingSize.width(), row * croppingSize.height(), croppingSize.width(), croppingSize.height())
+                croppedPixmap = pixmap.scaled(shape).copy(column * croppingSize.width(), row * croppingSize.height(), croppingSize.width(), croppingSize.height())
                 # Check if there exists an UAV in the current tile
                 if (self.thereIsUAV([row, column])):
                     backgroundImg : QtGui.QImage = croppedPixmap.toImage()
@@ -134,13 +146,16 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
         
         
     def displayMicroservice(self, microservice: Microservice) -> None:
-        print(microservice)
+        # print(microservice)
         self.clearDisplay()
          # Retrieve the size of the background image and scale the layout accordingly
         self.scenario = Database().scenario
         pixmap: QtGui.QPixmap = QtGui.QPixmap(self.scenario.backgroundImg)
         shape: QtCore.QSize = QtGui.QPixmap(self.scenario.backgroundImg).size()
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(9, 9, shape.width(), shape.height()))
+        #self.gridLayoutWidget.setGeometry(QtCore.QRect(9, 9, shape.width(), shape.height()))
+        
+        # Scale the grid to fit the image
+        shape = self.scaleImageToFitGrid(shape)
         
         # Calculate the size of each Pixmap
         croppingSize: QtCore.QSize = QtCore.QSize(shape.width() / self.scenario.shape[1], shape.height() / self.scenario.shape[0])
@@ -148,7 +163,7 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
         for row in range(self.scenario.shape[0]):
             for column in range(self.scenario.shape[1]):
                 label = MicroserviceLabel([row, column], microservice)
-                croppedPixmap = QtGui.QPixmap(self.scenario.backgroundImg).copy(column * croppingSize.width(), row * croppingSize.height(), croppingSize.width(), croppingSize.height())
+                croppedPixmap = pixmap.scaled(shape).copy(column * croppingSize.width(), row * croppingSize.height(), croppingSize.width(), croppingSize.height())
                 # Check if there exists an UAV in the current tile
                 backgroundImg : QtGui.QImage = croppedPixmap.toImage()
                 heatImg : QtGui.QImage = QtGui.QPixmap(f'/home/santiago/Documents/Trabajo/Workspace/GLOMIM/glomim_v1/AuxImages/heatmaps/heatmap{int(microservice.heatmap[row][column])}.png').toImage()
@@ -161,13 +176,70 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
                 label.setPixmap(croppedPixmap.scaled(label.size(), QtCore.Qt.KeepAspectRatio))
                 self.gridLayout.addWidget(label, row, column)
                 
-
+    def displayDeployment(self) -> None:
+        self.clearDisplay()
+        # Retrieve the size of the background image and scale the layout accordingly
+        self.scenario = Database().scenario
+        pixmap: QtGui.QPixmap = QtGui.QPixmap(self.scenario.backgroundImg)
+        shape: QtCore.QSize = QtGui.QPixmap(self.scenario.backgroundImg).size()
+        #self.gridLayoutWidget.setGeometry(QtCore.QRect(9, 9, shape.width(), shape.height()))
+        
+        # Scale the grid to fit the image
+        shape = self.scaleImageToFitGrid(shape)
+        
+        # Calculate the size of each Pixmap
+        croppingSize: QtCore.QSize = QtCore.QSize(shape.width() / self.scenario.shape[1], shape.height() / self.scenario.shape[0])
+        for row in range(self.scenario.shape[0]):
+            for column in range(self.scenario.shape[1]):
+                #label = DeploymentLabel([row, column])
+                label = QtWidgets.QLabel()
+                croppedPixmap = pixmap.scaled(shape).copy(column * croppingSize.width(), row * croppingSize.height(), croppingSize.width(), croppingSize.height())
+                backgroundImg : QtGui.QImage = croppedPixmap.toImage()                
+                painter: QtGui.QPainter = QtGui.QPainter(backgroundImg)
+                
+                text = ''.join([ms.id for ms in self.scenario.microserviceList])
+                painter.drawText(backgroundImg.rect(), text) 
+                painter.end()                
+                croppedPixmap = QtGui.QPixmap.fromImage(backgroundImg)
+                label.resize(croppingSize)
+                label.setPixmap(croppedPixmap.scaled(label.size(), QtCore.Qt.KeepAspectRatio))
+                self.gridLayout.addWidget(label, row, column)
+            
+            
+            
     def thereIsUAV(self, position: list[int]) -> bool:
         for uav in Database().scenario.uavList:
             if (uav.position[0] == position[0] and uav.position[1] == position[1]):
                 return True
         return False
         
+    def scaleImageToFitGrid(self, shape : QtCore.QSize) -> QtCore.QSize:
+        
+        windowsShape: QtCore.QSize = self.frameGeometry()
+        widgetShape: QtCore.QSize = self.gridLayoutWidget.frameGeometry()
+        
+        # First force the grid to be smaller than the windows size
+        padding: int = 20
+        
+        ratio = max((widgetShape.width()) / windowsShape.width(), (widgetShape.height()) / windowsShape.height())
+
+        # If the grid is greater (ratio > 1), then scale down the grid
+        if ratio > 1.0:
+
+            self.gridLayoutWidget.setGeometry(QtCore.QRect(padding, padding, (widgetShape.width() * (1/ratio)) - padding, (widgetShape.height() * (1/ratio)) - padding))
+            widgetShape = self.gridLayoutWidget.frameGeometry()
+
+
+        # Find the ratio between the grid and the image
+        ratio = min((widgetShape.width()) / shape.width(), (widgetShape.height()) / shape.height())
+        # If the image is greater (ratio < 1), then scale down the image
+        newShape = shape
+
+        if (ratio < 1.0): 
+
+            newShape = QtCore.QSize(shape.width() * ratio - padding , shape.height() * ratio - padding)
+        self.gridLayoutWidget.setGeometry(padding, padding, newShape.width() + padding, newShape.height() + padding)
+        return newShape
         
     def clearCurrentDeployment(self) -> None:
         uavList : list[UAV] = self.scenario.uavList
@@ -179,19 +251,19 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
         self.clearCurrentDeployment()
 
         # Setup the solver
-        
-        # Solve scenario
-        
-        # Show Result
 
+        # Solve scenario
+        solver.initializeModel()
+        # Show Result
+        solver.solve()
         
     def solveWithGLOMIP(self) -> None:
         print('Solving with GLOMIP')
         self.clearCurrentDeployment()
         
         # Setup the solver
-        
+        solver = GLOMIP()        
         # Solve scenario
-        
+        solver.initializeModel()        
         # Show Result
-
+        solver.solve()

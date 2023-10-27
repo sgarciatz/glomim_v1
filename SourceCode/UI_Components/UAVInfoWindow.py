@@ -27,15 +27,23 @@ class UAVInfoWindow(QtWidgets.QDialog, Ui_UAVInfo):
     def modifyUAV(self) -> None:
         uavId: str               = self.plainTextEdit_uavId.toPlainText()
         uavPosition: list[int]   = [int(self.plainTextEdit_row.toPlainText()), int(self.plainTextEdit_column.toPlainText())]
-        ramCapacity: float       = self.plainTextEdit_ramCapacity.toPlainText()
-        ramAllocated: float      = self.plainTextEdit_ramAllocated.toPlainText()
-        cpuCapacity: float       = self.plainTextEdit_cpuCapacity.toPlainText()
-        cpuAllocated: float      = self.plainTextEdit_cpuAllocated.toPlainText()
+        ramCapacity: float       = float(self.plainTextEdit_ramCapacity.toPlainText())
+        ramAllocated: float      = float(self.plainTextEdit_ramAllocated.toPlainText())
+        cpuCapacity: float       = float(self.plainTextEdit_cpuCapacity.toPlainText())
+        cpuAllocated: float      = float(self.plainTextEdit_cpuAllocated.toPlainText())
         microservices: list[str] = [ms for ms in self.plainTextEdit_microservices.toPlainText().split(', ')]
         
-        self.__uav = UAV(uavId, uavPosition, ramCapacity, ramAllocated, cpuCapacity, cpuAllocated, microservices)
+        self.__uav.id            = uavId
+        self.__uav.position      = uavPosition
+        self.__uav.ramCapacity   = ramCapacity
+        self.__uav.ramAllocated  = ramAllocated
+        self.__uav.cpuCapacity   = cpuCapacity
+        self.__uav.cpuAllocated  = cpuAllocated
+        self.__uav.microservices = microservices
         
-        [print(uav) for uav in Database().scenario.uavList]
+        print(self.__uav)
+        print(Database().scenario.uavList)
+        self.closeWindow()
         
     def closeWindow(self) -> None:
         self.close()

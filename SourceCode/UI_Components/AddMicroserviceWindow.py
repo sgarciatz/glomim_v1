@@ -15,10 +15,11 @@ class AddMicroserviceWindow(QtWidgets.QDialog, Ui_AddMicroservice):
         self.__scenario = Database().scenario
         
     def createMicroservice(self):
-        msId  : str   = self.plainTextEdit_microserviceId.toPlainText()
-        msRam : float = self.plainTextEdit_ramRequirement.toPlainText()
-        msCpu : float = self.plainTextEdit_cpuRequirement.toPlainText()
-        msHeatmap: np.array = np.zeros((self.__scenario.shape[0], self.__scenario.shape[1]))
-        self.__scenario.microserviceList.append(Microservice(msId, msRam, msCpu, msHeatmap))
+        msId  : str                = self.plainTextEdit_microserviceId.toPlainText()
+        msRam : float              = float(self.plainTextEdit_ramRequirement.toPlainText())
+        msCpu : float              = float(self.plainTextEdit_cpuRequirement.toPlainText())
+        msReplicationIndex : int   = int(self.plainTextEdit_replicationIndex.toPlainText())
+        msHeatmap : np.array = np.zeros((self.__scenario.shape[0], self.__scenario.shape[1]))
+        self.__scenario.microserviceList.append(Microservice(msId, msRam, msCpu, msReplicationIndex, msHeatmap))
         self.close()
 

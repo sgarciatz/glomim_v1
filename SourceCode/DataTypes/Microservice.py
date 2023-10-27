@@ -2,10 +2,11 @@ import numpy as np
 
 class Microservice(object):
 
-    def __init__(self, msId: str, ramRequirement: float = 1, cpuRequirement: float = 1, heatmap: np.array = None) -> None:
+    def __init__(self, msId: str, ramRequirement: float = 1, cpuRequirement: float = 1, replicationIndex: int = 1,  heatmap: np.array = None) -> None:
         self.__id: str               = msId
         self.__ramRequirement: float = ramRequirement
         self.__cpuRequirement: float = cpuRequirement
+        self.__replicationIndex: int = replicationIndex
         self.__heatmap: np.array     = heatmap
 
     @property
@@ -26,11 +27,19 @@ class Microservice(object):
     
     @property
     def cpuRequirement(self) -> float:
-        return self._cpuRequirement
+        return self.__cpuRequirement
         
     @cpuRequirement.setter
     def cpuRequirement(self, newCpuRequirement: float) -> None:
         self.__cpuRequirement = newCpuRequirement
+
+    @property
+    def replicationIndex(self) -> float:
+        return self.__replicationIndex
+        
+    @replicationIndex.setter
+    def replicationIndex(self, newReplicationIndex: float) -> None:
+        self.__replicationIndex = newReplicationIndex
        
     @property 
     def heatmap(self) -> np.array:
@@ -53,6 +62,7 @@ class Microservice(object):
             'microserviceId' : self.__id,
             'ramRequirement' : self.__ramRequirement,
             'cpuRequirement' : self.__cpuRequirement,
+            'replicationIndex' : self.__replicationIndex,            
             'heatmap'        :  [[heatValue for heatValue in row] for row in self.__heatmap]
             }
         return json

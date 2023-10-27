@@ -27,7 +27,7 @@ class Scenario(object):
                                        uav['cpuCapacity'], uav['cpuAllocated'], uav['microservices']))
         msList: list[Microservice] = []
         for ms in inputData['microserviceList']:
-                msList.append(Microservice(ms['microserviceId'], ms['ramRequirement'], ms['cpuRequirement'], np.array(ms['heatmap'])))
+                msList.append(Microservice(ms['microserviceId'], ms['ramRequirement'], ms['cpuRequirement'], ms['replicationIndex'], np.array(ms['heatmap'])))
 
         return cls(inputData['scenarioName'], inputData['shape'], inputData['backgroundImg'], uavList, msList) 
 

@@ -78,8 +78,6 @@ class UAVLabel(QtWidgets.QLabel):
         self.setPixmap(croppedPixmap)
         
     def showInfo(self) -> None:
-        print(self.__position)
-        print(self.__scenario.uavList)
         for uav in self.__scenario.uavList:
             if (uav.position[0] == self.__position[0] and uav.position[1] == self.__position[1]):
                 self.uavInfoWindow = UAVInfoWindow(uav)

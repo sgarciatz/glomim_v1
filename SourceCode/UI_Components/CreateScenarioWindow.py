@@ -1,6 +1,8 @@
 from PySide6 import QtWidgets
 from .CreateScenario import Ui_CreateScenario
-
+import pathlib
+from DataTypes.Scenario import Scenario
+from Database import Database
 class CreateScenarioWindow(QtWidgets.QDialog, Ui_CreateScenario):
     def __init__(self):
         super(CreateScenarioWindow, self).__init__()
@@ -9,7 +11,7 @@ class CreateScenarioWindow(QtWidgets.QDialog, Ui_CreateScenario):
         self.buttonBox.accepted.connect(self.createScenario)
         self.buttonBox.rejected.connect( lambda : self.close())
     def openFileBrowser(self):
-        fname = QFileDialog.getOpenFileName(self, 'Open file', '/home/santiago/Documents/Trabajo/Workspace/GLOMIM/glomim_v1/AuxImages/',"Image files (*.jpg *.gif *.svg *.png)")
+        fname = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file', '/home/santiago/Documents/Trabajo/Workspace/GLOMIM/glomim_v1/AuxImages/',"Image files (*.jpg *.gif *.svg *.png)")
         self.plainTextEdit_refImage.clear()
         self.plainTextEdit_refImage.insertPlainText(fname[0])
 
@@ -28,7 +30,7 @@ class CreateScenarioWindow(QtWidgets.QDialog, Ui_CreateScenario):
         scenarioReferenceImage: str = self.plainTextEdit_refImage.toPlainText()
         if (not pathlib.Path(scenarioReferenceImage).exists()): return
         
-        
+        scenario = None
         if ( scenarioName != '' and scenarioShape[0] > 0 and scenarioShape[1] > 0):
             scenario = Scenario(scenarioName,
                                 scenarioShape,    
@@ -39,6 +41,7 @@ class CreateScenarioWindow(QtWidgets.QDialog, Ui_CreateScenario):
             try:
                 Database().scenario = scenario 
             except:
+                print(scenario)
                 Database(scenario) # First time (initialize singleton)
             finally:
                 self.close()
