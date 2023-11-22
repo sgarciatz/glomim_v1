@@ -75,11 +75,28 @@ class UAV(object):
     def microservices(self, newMicroservices: list[Microservice]) -> None:
         self.__microservices = newMicroservices
 
+    def deployMicroservice(self, ms: Microservice) -> bool:
+
+        """Deploy a microservice if it fits"""
+
+        ramRemaining: float = \
+            self.__ramCapacity - (self.__ramAllocated + ms.ramRequirement)
+        cpuRemaining: float = \
+            self.__cpuCapacity - (self.__cpuAllocated + ms.cpuRequirement)
+        if (ramRemaining < 0):
+            return False
+        if (cpuRemaining < 0):
+            return False
+        self.__ramAllocated += ms.ramRequirement
+        self.__cpuAllocated += ms.cpuRequirement
+        self.__microservices.append(ms)
+        return True 
+            
     def __str__(self) -> str:
         microservicesString = ''
         for ms in self.__microservices:
-            microservicesString += f'{ms} '
-        return f'UAV id: self.__id\n\t-Position: {self.__position}\n\t-RAM: {self.__ramCapacity} (capacity) {self.__ramAllocated} (allocated) \n\t-CPU: {self.__cpuCapacity} (capacity) {self.__cpuAllocated} (allocated)\n\t-Microservices: {microservicesString}'
+            microservicesString += f'{ms.id} '
+        return f'UAV id: {self.__id}\n\t-Position: {self.__position}\n\t-RAM: {self.__ramCapacity} (capacity) {self.__ramAllocated} (allocated) \n\t-CPU: {self.__cpuCapacity} (capacity) {self.__cpuAllocated} (allocated)\n\t-Microservices: {microservicesString}'
         
     def toJSON(self) -> dict:
         json = {

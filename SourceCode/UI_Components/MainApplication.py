@@ -71,6 +71,9 @@ class Ui_MainApplication(object):
         self.actionGLOMIP = QtGui.QAction(parent=MainWindow)
         self.actionGLOMIP.setObjectName("actionGLOMIP")
         
+        self.actionMANETOptiServ = QtGui.QAction(parent=MainWindow)
+        self.actionMANETOptiServ.setObjectName("actionMANETOptiServ")
+        
         
         self.menuMicroserviceView.addAction(self.actionAdd_Microservice)
         self.menuMicroserviceView.addSeparator()
@@ -86,6 +89,7 @@ class Ui_MainApplication(object):
         
         self.menuSolvers.addAction(self.actionGLOSIP)
         self.menuSolvers.addAction(self.actionGLOMIP)
+        self.menuSolvers.addAction(self.actionMANETOptiServ)
         
         self.menubar.addAction(self.menuArchive.menuAction())
         self.menubar.addAction(self.menuViews.menuAction())
@@ -110,6 +114,7 @@ class Ui_MainApplication(object):
         self.actionSave_current_Scenario.setText(_translate("MainWindow", "Save current Scenario"))
         self.actionLoad_existing_Scenario.setText(_translate("MainWindow", "Load existing Scenario"))
         self.actionGLOSIP.setText(_translate("MainWindow", "Solve with GLOSIP")) 
-        self.actionGLOMIP.setText(_translate("MainWindow", "Solve with GLOMIP"))         
+        self.actionGLOMIP.setText(_translate("MainWindow", "Solve with GLOMIP"))
+        self.actionMANETOptiServ.setText(_translate("MainWindow", "Solve with MANETOptiServ"))
 
 

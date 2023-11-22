@@ -6,11 +6,12 @@ from .UAVInfoWindow import UAVInfoWindow
 
 class UAVLabel(QtWidgets.QLabel):
     
-    def __init__(self, position: list[int]):
+    def __init__(self, position: list[int], shape: QtCore.QSize):
         super().__init__()
         self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.customContextMenuRequested.connect(self.setupMenu)    
         self.__position: list[int] = [position[0], position[1]]
+        self.__shape: QtCore.QSize = shape
 
         self.__scenario: Scenario = Database().scenario
         uavList = self.__scenario.uavList      
@@ -49,9 +50,8 @@ class UAVLabel(QtWidgets.QLabel):
         self.__uav = newUAV
         
         pixmap: QtGui.QPixmap = QtGui.QPixmap(self.__scenario.backgroundImg)
-        shape: QtCore.QSize = QtGui.QPixmap(self.__scenario.backgroundImg).size()
-        croppingSize: QtCore.QSize = QtCore.QSize(shape.width() / self.__scenario.shape[1], shape.height() / self.__scenario.shape[0])
-        croppedPixmap = QtGui.QPixmap(self.__scenario.backgroundImg).copy(self.__position[1] * croppingSize.width(), self.__position[0] * croppingSize.height(), croppingSize.width(), croppingSize.height())
+        croppingSize: QtCore.QSize = QtCore.QSize(self.__shape.width() / self.__scenario.shape[1], self.__shape.height() / self.__scenario.shape[0])
+        croppedPixmap = QtGui.QPixmap(self.__scenario.backgroundImg).scaled(self.__shape).copy(self.__position[1] * croppingSize.width(), self.__position[0] * croppingSize.height(), croppingSize.width(), croppingSize.height())
         backgroundImg : QtGui.QImage = croppedPixmap.toImage()
         uavImg : QtGui.QImage = QtGui.QPixmap('/home/santiago/Documents/Trabajo/Workspace/GLOMIM/glomim_v1/AuxImages/uav.png').toImage()
         painter: QtGui.QPainter = QtGui.QPainter(backgroundImg)

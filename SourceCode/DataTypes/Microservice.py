@@ -55,7 +55,7 @@ class Microservice(object):
             for row in self.__heatmap:
                 heatmapString += f'\n\t{row}'
               
-        return f'Microservice: {self.__id}\n\t-RAM requirement: {self.__ramRequirement}\n\t-CPU requirement: {self.__cpuRequirement}\n\t-Heatmap:{heatmapString}'
+        return f'Microservice: {self.__id}\n\t-RAM requirement: {self.__ramRequirement}\n\t-CPU requirement: {self.__cpuRequirement}\n\t-Heatmap:{heatmapString}\n\t-Replication index: {self.__replicationIndex}'
         
     def toJSON(self) -> dict:
         json = {

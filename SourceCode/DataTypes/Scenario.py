@@ -25,10 +25,13 @@ class Scenario(object):
         for uav in inputData['uavList']:
                     uavList.append(UAV(uav['uavId'], uav['position'], uav['ramCapacity'], uav['ramAllocated'], 
                                        uav['cpuCapacity'], uav['cpuAllocated'], uav['microservices']))
+        uavList = sorted(uavList,
+                         key=lambda uav: uav.id)
         msList: list[Microservice] = []
         for ms in inputData['microserviceList']:
                 msList.append(Microservice(ms['microserviceId'], ms['ramRequirement'], ms['cpuRequirement'], ms['replicationIndex'], np.array(ms['heatmap'])))
-
+        msList = sorted(msList,
+                        key=lambda ms: ms.replicationIndex)
         return cls(inputData['scenarioName'], inputData['shape'], inputData['backgroundImg'], uavList, msList) 
 
     def uavPlacement(self) -> np.array:

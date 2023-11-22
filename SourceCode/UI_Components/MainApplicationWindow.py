@@ -8,10 +8,12 @@ from .CreateScenarioWindow import CreateScenarioWindow
 from .AddMicroserviceWindow import AddMicroserviceWindow
 from Database import Database
 from .UAVLabel import UAVLabel
+from .DeploymentLabel import DeploymentLabel
 from DataTypes.Scenario import Scenario
 from DataTypes.Microservice import Microservice
 from .MicroserviceLabel import MicroserviceLabel
 from Solvers.GLOMIP import GLOMIP
+from Solvers.MANETOptiServ import MANETOptiServ
 import json
 import pathlib
 from functools import partial
@@ -30,6 +32,7 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
         self.actionAdd_Microservice.triggered.connect(self.addMicroservice)
         self.actionGLOSIP.triggered.connect(self.solveWithGLOSIP)
         self.actionGLOMIP.triggered.connect(self.solveWithGLOMIP)
+        self.actionMANETOptiServ.triggered.connect(self.solveWithMANETOptiServ)        
         self.actionDeployment_View.triggered.connect(self.displayDeployment)
         
         
@@ -128,7 +131,7 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
         
         for row in range(self.scenario.shape[0]):
             for column in range(self.scenario.shape[1]):
-                label = UAVLabel([row, column])
+                label = UAVLabel([row, column], shape)
                 croppedPixmap = pixmap.scaled(shape).copy(column * croppingSize.width(), row * croppingSize.height(), croppingSize.width(), croppingSize.height())
                 # Check if there exists an UAV in the current tile
                 if (self.thereIsUAV([row, column])):
@@ -162,7 +165,7 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
         
         for row in range(self.scenario.shape[0]):
             for column in range(self.scenario.shape[1]):
-                label = MicroserviceLabel([row, column], microservice)
+                label = MicroserviceLabel([row, column], microservice, shape)
                 croppedPixmap = pixmap.scaled(shape).copy(column * croppingSize.width(), row * croppingSize.height(), croppingSize.width(), croppingSize.height())
                 # Check if there exists an UAV in the current tile
                 backgroundImg : QtGui.QImage = croppedPixmap.toImage()
@@ -178,26 +181,31 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
                 
     def displayDeployment(self) -> None:
         self.clearDisplay()
-        # Retrieve the size of the background image and scale the layout accordingly
+        # Retrieve the size of the background image and scale the 
+        # layout accordingly
         self.scenario = Database().scenario
         pixmap: QtGui.QPixmap = QtGui.QPixmap(self.scenario.backgroundImg)
-        shape: QtCore.QSize = QtGui.QPixmap(self.scenario.backgroundImg).size()
-        #self.gridLayoutWidget.setGeometry(QtCore.QRect(9, 9, shape.width(), shape.height()))
-        
+        shape: QtCore.QSize = QtGui.QPixmap(
+            self.scenario.backgroundImg).size()
         # Scale the grid to fit the image
         shape = self.scaleImageToFitGrid(shape)
-        
         # Calculate the size of each Pixmap
-        croppingSize: QtCore.QSize = QtCore.QSize(shape.width() / self.scenario.shape[1], shape.height() / self.scenario.shape[0])
+        croppingSize: QtCore.QSize = QtCore.QSize(
+            shape.width() / self.scenario.shape[1],
+            shape.height() / self.scenario.shape[0])
+        msList = self.scenario.microserviceList
         for row in range(self.scenario.shape[0]):
             for column in range(self.scenario.shape[1]):
-                #label = DeploymentLabel([row, column])
-                label = QtWidgets.QLabel()
-                croppedPixmap = pixmap.scaled(shape).copy(column * croppingSize.width(), row * croppingSize.height(), croppingSize.width(), croppingSize.height())
-                backgroundImg : QtGui.QImage = croppedPixmap.toImage()                
+                label = DeploymentLabel([row, column], shape)
+                croppedPixmap = pixmap.scaled(shape).copy(
+                    column * croppingSize.width(),
+                    row * croppingSize.height(),
+                    croppingSize.width(),
+                    croppingSize.height())
+                backgroundImg : QtGui.QImage = croppedPixmap.toImage()     
                 painter: QtGui.QPainter = QtGui.QPainter(backgroundImg)
-                
-                text = ''.join([ms.id for ms in self.scenario.microserviceList])
+                painter.setPen(QtGui.QColor('pink'))
+                text = label.getTextForLabel()
                 painter.drawText(backgroundImg.rect(), text) 
                 painter.end()                
                 croppedPixmap = QtGui.QPixmap.fromImage(backgroundImg)
@@ -267,3 +275,12 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
         solver.initializeModel()        
         # Show Result
         solver.solve()
+        
+        
+    def solveWithMANETOptiServ(self) -> None:
+        print('Solving with MANETOptiServe')
+        # Setup the solver
+        solver = MANETOptiServ()        
+        # Solve scenario
+        # Show Result
+        solver.solve() 
