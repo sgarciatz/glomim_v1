@@ -21,12 +21,13 @@ class MANETOptiServ(object):
     minimices the global latency and that satisfies the restrictions. 
     """
 
-    def __init__(self) -> None:
+    def __init__(self, variation: str='globalLatency') -> None:
     
         """This constructor loads the configuration from the Database 
         singleton"""
         
-        self.__scenario     = Database().scenario        
+        self.__scenario = Database().scenario
+        self.__variation = variation
         self.calcShortestPathMatrix()
         
     def calcShortestPathMatrix(self) -> None:
@@ -116,7 +117,7 @@ class MANETOptiServ(object):
             else:
                 partitions.append(Partition(microservice, 
                                             self.__scenario.uavList,
-                                            'globalLatency'))
+                                            self.__variation))
         deployList = []
         for partition in partitions:
             deployList.append(
@@ -145,13 +146,13 @@ class MANETOptiServ(object):
         for pseudoUAV in uavList:
             filterFunc = lambda uav: uav.position[0] == pseudoUAV[0][0] \
                                      and uav.position[1] == pseudoUAV[0][1]
+
             uav: UAV = list(filter(filterFunc,
                                    self.__scenario.uavList))[0]
 
             finalUavList.append(uav)
-#        print(finalUavList)
         if (len(finalUavList) != len(uavList)): print('Error') 
-        return Partition(ms, finalUavList)
+        return Partition(ms, finalUavList, self.__variation)
         
     def solutionToCSV(self, output_file: str = 'out.csv'):
         
@@ -210,7 +211,8 @@ class MANETOptiServ(object):
         result_df.to_csv(
             (
                 f'../Solutions/{self.__scenario.scenarioName}'
-                f'_MANETOptiServ_globalLatency.csv'
+                f'_MANETOptiServ_'
+                f'{self.__variation}.csv'
             ),
             sep=',',
             index=False)

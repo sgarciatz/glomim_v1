@@ -38,7 +38,7 @@ class GLOMIP(object):
         # Initialize the model
         self.__model = Model(sense=MINIMIZE, solver_name=GRB)
         self.__model.verbose = 1
-        self.__model.threads = 1
+        self.__model.threads = -1
 
     def initializeModel(self):
 
@@ -155,12 +155,24 @@ class GLOMIP(object):
                         'Value': var.x
                     } for index, var in enumerate(self.__model.vars)]
         self.solutionToCSV(df_data)
+        self.deploy()
         return pd.DataFrame(df_data)
 
     def deploy(self):
 
         """Deploy the microservices on the UAVs using the solution
         provided by the solver"""
+
+        msList = self.__scenario.microserviceList
+        uavList = self.__scenario.uavList
+        result =  [int(decision_variable.x)\
+                    for decision_variable in self.__model.vars[:]]
+        result = np.array(result)[::2+len(uavList)]
+        result = result.reshape((len(uavList), len(msList)))
+        for i, row in enumerate(result):
+            for j, value in enumerate(row):
+                if (value == 1):
+                    uavList[i].deployMicroservice(msList[j])
         
         pass
         

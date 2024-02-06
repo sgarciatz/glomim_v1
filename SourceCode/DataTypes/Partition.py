@@ -57,8 +57,8 @@ class Partition(object):
             indexDstUAV: int = Database().scenario.uavList.index(dstUAV)
             path_cost: int = spMatrix[indexSrcUAV][indexDstUAV]
             heat = self.__ms.heatmap[dstUAV.position[0]][dstUAV.position[1]]
-            if heat != 0:
-                heat = 5 - heat
+#            if heat != 0:
+#                heat = 5 - heat
             cost = path_cost * heat
             if (cost > maxCost):
                 maxCost = cost
@@ -75,8 +75,8 @@ class Partition(object):
             indexDstUAV: int = Database().scenario.uavList.index(dstUAV)
             path_cost: int = spMatrix[indexSrcUAV][indexDstUAV]
             heat = self.__ms.heatmap[dstUAV.position[0]][dstUAV.position[1]]
-            if heat != 0:
-                heat = 5 - heat
+#            if heat != 0:
+#                heat = 5 - heat
             cost += path_cost * heat
         return cost
     def deployMicroservice(self) -> None:

@@ -33,7 +33,8 @@ class Ui_MainApplication(object):
         self.menuMicroserviceView.setObjectName("menuMicroserviceView")
         self.menuSolvers = QtWidgets.QMenu(parent=self.menubar)
         self.menuSolvers.setObjectName("menuSolvers")
-
+        self.menuMANETOptiServ = QtWidgets.QMenu(parent=self.menubar)
+        self.menuMANETOptiServ.setObjectName("menuMANETOptiServ")
 
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(parent=MainWindow)
@@ -71,26 +72,34 @@ class Ui_MainApplication(object):
         self.actionGLOMIP = QtGui.QAction(parent=MainWindow)
         self.actionGLOMIP.setObjectName("actionGLOMIP")
         
-        self.actionMANETOptiServ = QtGui.QAction(parent=MainWindow)
-        self.actionMANETOptiServ.setObjectName("actionMANETOptiServ")
+        self.actionMANETOptiServGlobLat = QtGui.QAction(parent=MainWindow)
+        self.actionMANETOptiServGlobLat.setObjectName("actionMANETOptiServGlobLat")
         
+        self.actionMANETOptiServFairness = QtGui.QAction(parent=MainWindow)
+        self.actionMANETOptiServGlobLat.setObjectName("actionMANETOptiServFairness")
         
         self.menuMicroserviceView.addAction(self.actionAdd_Microservice)
         self.menuMicroserviceView.addSeparator()
+        
         self.menuArchive.addAction(self.actionCreate_new_Scenario)
         self.menuArchive.addSeparator()
         self.menuArchive.addAction(self.actionSave_current_Scenario)
         self.menuArchive.addSeparator()
         self.menuArchive.addAction(self.actionLoad_existing_Scenario)
+        
         self.menuViews.addAction(self.actionScenario_View)
         self.menuViews.addAction(self.actionUAV_View)
         self.menuViews.addAction(self.actionDeployment_View)
         self.menuViews.addAction(self.menuMicroserviceView.menuAction())
         
+        self.menuMANETOptiServ.addAction(self.actionMANETOptiServGlobLat)
+        self.menuMANETOptiServ.addAction(self.actionMANETOptiServFairness)
+        
+        self.menuSolvers.addAction(self.menuMANETOptiServ.menuAction())      
         self.menuSolvers.addAction(self.actionGLOSIP)
         self.menuSolvers.addAction(self.actionGLOMIP)
-        self.menuSolvers.addAction(self.actionMANETOptiServ)
-        
+
+
         self.menubar.addAction(self.menuArchive.menuAction())
         self.menubar.addAction(self.menuViews.menuAction())
         self.menubar.addAction(self.menuSolvers.menuAction())
@@ -105,7 +114,7 @@ class Ui_MainApplication(object):
         self.menuViews.setTitle(_translate("MainWindow", "Views"))
         self.menuMicroserviceView.setTitle(_translate("MainWindow", "Microservice View"))
         self.menuSolvers.setTitle(_translate("MainWindow", "Solvers"))        
-        
+        self.menuMANETOptiServ.setTitle(_translate("MainWindow", "MANET Opti Serv"))        
         self.actionCreate_new_Scenario.setText(_translate("MainWindow", "Create new Scenario"))
         self.actionScenario_View.setText(_translate("MainWindow", "Scenario View"))
         self.actionUAV_View.setText(_translate("MainWindow", "UAV View"))
@@ -115,6 +124,7 @@ class Ui_MainApplication(object):
         self.actionLoad_existing_Scenario.setText(_translate("MainWindow", "Load existing Scenario"))
         self.actionGLOSIP.setText(_translate("MainWindow", "Solve with GLOSIP")) 
         self.actionGLOMIP.setText(_translate("MainWindow", "Solve with GLOMIP"))
-        self.actionMANETOptiServ.setText(_translate("MainWindow", "Solve with MANETOptiServ"))
+        self.actionMANETOptiServGlobLat.setText(_translate("MainWindow", "Global Latency"))
+        self.actionMANETOptiServFairness.setText(_translate("MainWindow", "Fairness"))
 
 

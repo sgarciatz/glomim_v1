@@ -24,15 +24,20 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
     def __init__(self):
         super(MainApplicationWindow, self).__init__()
         self.setupUi(self)
-        self.actionCreate_new_Scenario.triggered.connect(self.createNewScenario)
-        self.actionLoad_existing_Scenario.triggered.connect(self.loadExistingScenario)
+        self.actionCreate_new_Scenario.triggered.connect(
+            self.createNewScenario)
+        self.actionLoad_existing_Scenario.triggered.connect(
+            self.loadExistingScenario)
         self.actionSave_current_Scenario.triggered.connect(self.saveScenario)
         self.actionScenario_View.triggered.connect(self.displayScenario)
         self.actionUAV_View.triggered.connect(self.displayUAVs)
         self.actionAdd_Microservice.triggered.connect(self.addMicroservice)
         self.actionGLOSIP.triggered.connect(self.solveWithGLOSIP)
         self.actionGLOMIP.triggered.connect(self.solveWithGLOMIP)
-        self.actionMANETOptiServ.triggered.connect(self.solveWithMANETOptiServ)        
+        self.actionMANETOptiServGlobLat.triggered.connect(
+            self.solveWithMANETOptiServGlobLat)
+        self.actionMANETOptiServFairness.triggered.connect(
+            self.solveWithMANETOptiServFairness) 
         self.actionDeployment_View.triggered.connect(self.displayDeployment)
         
         
@@ -249,11 +254,6 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
         self.gridLayoutWidget.setGeometry(padding, padding, newShape.width() + padding, newShape.height() + padding)
         return newShape
         
-    def clearCurrentDeployment(self) -> None:
-        uavList : list[UAV] = self.scenario.uavList
-        for uav in uavList:
-            uav.microservices = []
-
     def solveWithGLOSIP(self) -> None:
         print('Solving with GLOSIP')
         self.clearCurrentDeployment()
@@ -267,8 +267,7 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
         
     def solveWithGLOMIP(self) -> None:
         print('Solving with GLOMIP')
-        self.clearCurrentDeployment()
-        
+        self.scenario.clearUAVs();
         # Setup the solver
         solver = GLOMIP()        
         # Solve scenario
@@ -276,11 +275,20 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
         # Show Result
         solver.solve()
         
-        
-    def solveWithMANETOptiServ(self) -> None:
+    def solveWithMANETOptiServGlobLat(self) -> None:
         print('Solving with MANETOptiServe')
+        self.scenario.clearUAVs();
         # Setup the solver
-        solver = MANETOptiServ()        
+        solver = MANETOptiServ('globalLatency')        
+        # Solve scenario
+        # Show Result
+        solver.solve()
+                
+    def solveWithMANETOptiServFairness(self) -> None:
+        print('Solving with MANETOptiServe')
+        self.scenario.clearUAVs();
+        # Setup the solver
+        solver = MANETOptiServ('fairness')        
         # Solve scenario
         # Show Result
         solver.solve() 

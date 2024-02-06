@@ -77,7 +77,17 @@ class Scenario(object):
     @microserviceList.setter
     def microserviceList(self, newMicroserviceList: list[UAV]) -> None:
         self.__microserviceList = newMicroserviceList
-        
+      
+    def clearUAVs(self) -> None:
+    
+        """Remove all the deployed microservices and 
+        deallocate resources in the UAVs"""
+
+        for uav in self.__uavList:
+            uav.ramAllocated = 0.0
+            uav.cpuAllocated = 0.0
+            uav.microservices = []
+
     def toJSON(self) -> str:
         
         json: dict = {
