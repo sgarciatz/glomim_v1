@@ -10,7 +10,7 @@ from pathlib import Path
 from Database import Database
 import igraph as ig
 from time import time_ns
-
+import os
 
 class GLOMIP(object):
 
@@ -252,5 +252,6 @@ class GLOMIP(object):
         [column_list.append(f'adj_{d.id}') for d in self.__scenario.uavList]
         # print(len(csv_list[0]), len(column_list)) 
         result_df = pd.DataFrame(csv_list, columns=column_list)
+        if (not os.path.exists('../Solutions')): os.makedirs('../Solutions')
         result_df.to_csv(f'../Solutions/{self.__scenario.scenarioName}.csv', sep=',', index=False)
         

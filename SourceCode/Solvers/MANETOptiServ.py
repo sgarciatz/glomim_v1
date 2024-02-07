@@ -8,6 +8,8 @@ import igraph as ig
 from Database import Database
 from DataTypes.Partition import Partition
 from DataTypes.Microservice import Microservice
+import os
+
 
 class MANETOptiServ(object):
 
@@ -208,6 +210,7 @@ class MANETOptiServ(object):
         for d in self.__scenario.uavList:
             columnList.append(f'adj_{d.id}')
         result_df = pd.DataFrame(csvList, columns=columnList)
+        if (not os.path.exists('../Solutions')): os.makedirs('../Solutions')
         result_df.to_csv(
             (
                 f'../Solutions/{self.__scenario.scenarioName}'

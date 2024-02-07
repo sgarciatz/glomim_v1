@@ -27,7 +27,7 @@ class MicroserviceLabel(QtWidgets.QLabel):
             croppingSize: QtCore.QSize = QtCore.QSize(self.__shape.width() / self.__scenario.shape[1], self.__shape.height() / self.__scenario.shape[0])
             croppedPixmap = QtGui.QPixmap(self.__scenario.backgroundImg).scaled(self.__shape).copy(self.__position[1] * croppingSize.width(), self.__position[0] * croppingSize.height(), croppingSize.width(), croppingSize.height())
             backgroundImg : QtGui.QImage = croppedPixmap.toImage()
-            heatImg : QtGui.QImage = QtGui.QPixmap(f'/home/santiago/Documents/Trabajo/Workspace/GLOMIM/glomim_v1/AuxImages/heatmaps/heatmap{int(self.__microservice.heatmap[self.__position[0]][self.__position[1]])}.png').toImage()
+            heatImg : QtGui.QImage = QtGui.QPixmap(f'../AuxImages/heatmaps/heatmap{int(self.__microservice.heatmap[self.__position[0]][self.__position[1]])}.png').toImage()
             painter: QtGui.QPainter = QtGui.QPainter(backgroundImg)
             painter.drawImage(backgroundImg.rect(), heatImg)
             painter.end()

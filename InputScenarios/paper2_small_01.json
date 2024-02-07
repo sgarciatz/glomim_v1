@@ -1,0 +1,376 @@
+{
+    "scenarioName": "paper2_small_01",
+    "shape": [
+        5,
+        5
+    ],
+    "backgroundImg": "../AuxImages/scenario_background.png",
+    "uavList": [
+        {
+            "uavId": "uav_00_02",
+            "position": [
+                0,
+                2
+            ],
+            "ramCapacity": 4.0,
+            "ramAllocated": 0.0,
+            "cpuCapacity": 4.0,
+            "cpuAllocated": 0.0,
+            "microservices": []
+        },
+        {
+            "uavId": "uav_01_00",
+            "position": [
+                1,
+                0
+            ],
+            "ramCapacity": 4.0,
+            "ramAllocated": 0.0,
+            "cpuCapacity": 4.0,
+            "cpuAllocated": 0.0,
+            "microservices": []
+        },
+        {
+            "uavId": "uav_01_01",
+            "position": [
+                1,
+                1
+            ],
+            "ramCapacity": 4.0,
+            "ramAllocated": 0.0,
+            "cpuCapacity": 4.0,
+            "cpuAllocated": 0.0,
+            "microservices": []
+        },
+        {
+            "uavId": "uav_01_02",
+            "position": [
+                1,
+                2
+            ],
+            "ramCapacity": 4.0,
+            "ramAllocated": 0.0,
+            "cpuCapacity": 4.0,
+            "cpuAllocated": 0.0,
+            "microservices": []
+        },
+        {
+            "uavId": "uav_01_03",
+            "position": [
+                1,
+                3
+            ],
+            "ramCapacity": 4.0,
+            "ramAllocated": 0.0,
+            "cpuCapacity": 4.0,
+            "cpuAllocated": 0.0,
+            "microservices": []
+        },
+        {
+            "uavId": "uav_01_04",
+            "position": [
+                1,
+                4
+            ],
+            "ramCapacity": 4.0,
+            "ramAllocated": 0.0,
+            "cpuCapacity": 4.0,
+            "cpuAllocated": 0.0,
+            "microservices": []
+        },
+        {
+            "uavId": "uav_02_00",
+            "position": [
+                2,
+                0
+            ],
+            "ramCapacity": 4.0,
+            "ramAllocated": 0.0,
+            "cpuCapacity": 4.0,
+            "cpuAllocated": 0.0,
+            "microservices": []
+        },
+        {
+            "uavId": "uav_02_01",
+            "position": [
+                2,
+                1
+            ],
+            "ramCapacity": 4.0,
+            "ramAllocated": 0.0,
+            "cpuCapacity": 4.0,
+            "cpuAllocated": 0.0,
+            "microservices": []
+        },
+        {
+            "uavId": "uav_02_02",
+            "position": [
+                2,
+                2
+            ],
+            "ramCapacity": 4.0,
+            "ramAllocated": 0.0,
+            "cpuCapacity": 4.0,
+            "cpuAllocated": 0.0,
+            "microservices": []
+        },
+        {
+            "uavId": "uav_02_03",
+            "position": [
+                2,
+                3
+            ],
+            "ramCapacity": 4.0,
+            "ramAllocated": 0.0,
+            "cpuCapacity": 4.0,
+            "cpuAllocated": 0.0,
+            "microservices": []
+        },
+        {
+            "uavId": "uav_02_04",
+            "position": [
+                2,
+                4
+            ],
+            "ramCapacity": 4.0,
+            "ramAllocated": 0.0,
+            "cpuCapacity": 4.0,
+            "cpuAllocated": 0.0,
+            "microservices": []
+        },
+        {
+            "uavId": "uav_03_01",
+            "position": [
+                3,
+                1
+            ],
+            "ramCapacity": 4.0,
+            "ramAllocated": 0.0,
+            "cpuCapacity": 4.0,
+            "cpuAllocated": 0.0,
+            "microservices": []
+        },
+        {
+            "uavId": "uav_03_02",
+            "position": [
+                3,
+                2
+            ],
+            "ramCapacity": 4.0,
+            "ramAllocated": 0.0,
+            "cpuCapacity": 4.0,
+            "cpuAllocated": 0.0,
+            "microservices": []
+        },
+        {
+            "uavId": "uav_03_03",
+            "position": [
+                3,
+                3
+            ],
+            "ramCapacity": 4.0,
+            "ramAllocated": 0.0,
+            "cpuCapacity": 4.0,
+            "cpuAllocated": 0.0,
+            "microservices": []
+        },
+        {
+            "uavId": "uav_03_04",
+            "position": [
+                3,
+                4
+            ],
+            "ramCapacity": 4.0,
+            "ramAllocated": 0.0,
+            "cpuCapacity": 4.0,
+            "cpuAllocated": 0.0,
+            "microservices": []
+        },
+        {
+            "uavId": "uav_04_03",
+            "position": [
+                4,
+                3
+            ],
+            "ramCapacity": 4.0,
+            "ramAllocated": 0.0,
+            "cpuCapacity": 4.0,
+            "cpuAllocated": 0.0,
+            "microservices": []
+        }
+    ],
+    "microserviceList": [
+        {
+            "microserviceId": "m0",
+            "ramRequirement": 4.0,
+            "cpuRequirement": 4.0,
+            "replicationIndex": 2,
+            "heatmap": [
+                [
+                    0.0,
+                    0.0,
+                    1.0,
+                    0.0,
+                    0.0
+                ],
+                [
+                    3.0,
+                    3.0,
+                    2.0,
+                    0.0,
+                    0.0
+                ],
+                [
+                    2.0,
+                    4.0,
+                    2.0,
+                    0.0,
+                    0.0
+                ],
+                [
+                    0.0,
+                    2.0,
+                    1.0,
+                    0.0,
+                    0.0
+                ],
+                [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            ]
+        },
+        {
+            "microserviceId": "m1",
+            "ramRequirement": 4.0,
+            "cpuRequirement": 4.0,
+            "replicationIndex": 1,
+            "heatmap": [
+                [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                [
+                    1.0,
+                    1.0,
+                    3.0,
+                    4.0,
+                    1.0
+                ],
+                [
+                    1.0,
+                    2.0,
+                    3.0,
+                    3.0,
+                    1.0
+                ],
+                [
+                    0.0,
+                    0.0,
+                    2.0,
+                    0.0,
+                    0.0
+                ],
+                [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            ]
+        },
+        {
+            "microserviceId": "m2",
+            "ramRequirement": 4.0,
+            "cpuRequirement": 4.0,
+            "replicationIndex": 1,
+            "heatmap": [
+                [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                [
+                    0.0,
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                [
+                    0.0,
+                    2.0,
+                    5.0,
+                    3.0,
+                    1.0
+                ],
+                [
+                    0.0,
+                    3.0,
+                    4.0,
+                    2.0,
+                    2.0
+                ],
+                [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0,
+                    0.0
+                ]
+            ]
+        },
+        {
+            "microserviceId": "m3",
+            "ramRequirement": 4.0,
+            "cpuRequirement": 4.0,
+            "replicationIndex": 2,
+            "heatmap": [
+                [
+                    0.0,
+                    0.0,
+                    3.0,
+                    0.0,
+                    0.0
+                ],
+                [
+                    1.0,
+                    3.0,
+                    5.0,
+                    3.0,
+                    1.0
+                ],
+                [
+                    1.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    1.0
+                ],
+                [
+                    0.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.0
+                ],
+                [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            ]
+        }
+    ]
+}
