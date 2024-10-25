@@ -9,21 +9,21 @@ class UAVInfoWindow(QtWidgets.QDialog, Ui_UAVInfo):
     def __init__(self, uav: UAV = None):
         super(UAVInfoWindow, self).__init__()
         self.setupUi(self)
-        self.__uav: UAV = uav 
-        
+        self.__uav: UAV = uav
+
         self.buttonBox.accepted.connect(self.modifyUAV)
         self.buttonBox.rejected.connect(self.closeWindow)
-        
+
         self.plainTextEdit_uavId.setPlainText(uav.id)
         self.plainTextEdit_row.setPlainText(str(uav.position[0]))
         self.plainTextEdit_column.setPlainText(str(uav.position[1]))
         self.plainTextEdit_ramCapacity.setPlainText(str(uav.ramCapacity))
         self.plainTextEdit_ramAllocated.setPlainText(str(uav.ramAllocated))
         self.plainTextEdit_cpuCapacity.setPlainText(str(uav.cpuCapacity))
-        self.plainTextEdit_cpuAllocated.setPlainText(str(uav.cpuAllocated))   
+        self.plainTextEdit_cpuAllocated.setPlainText(str(uav.cpuAllocated))
         ms: str = ', '.join([ms.id for ms in uav.microservices])
         self.plainTextEdit_microservices.setPlainText(ms)
-        
+
     def modifyUAV(self) -> None:
         uavId: str               = self.plainTextEdit_uavId.toPlainText()
         uavPosition: list[int]   = \
@@ -40,7 +40,7 @@ class UAVInfoWindow(QtWidgets.QDialog, Ui_UAVInfo):
         microservices: list[str] = \
             [ms for ms in \
                 self.plainTextEdit_microservices.toPlainText().split(', ')]
-        
+
         self.__uav.id            = uavId
         self.__uav.position      = uavPosition
         self.__uav.ramCapacity   = ramCapacity
@@ -48,10 +48,9 @@ class UAVInfoWindow(QtWidgets.QDialog, Ui_UAVInfo):
         self.__uav.cpuCapacity   = cpuCapacity
         self.__uav.cpuAllocated  = cpuAllocated
         self.__uav.microservices = microservices
-        
-        print(self.__uav)
+
         print(Database().scenario.uavList)
         self.closeWindow()
-        
+
     def closeWindow(self) -> None:
         self.close()

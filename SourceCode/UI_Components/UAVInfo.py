@@ -114,9 +114,9 @@ class Ui_UAVInfo(object):
         self.plainTextEdit_microservices = QtWidgets.QPlainTextEdit(parent=self.verticalLayoutWidget)
         self.plainTextEdit_microservices.setObjectName("plainTextEdit_microservices")
         self.verticalLayout.addWidget(self.plainTextEdit_microservices)
-        
-        
-        
+
+
+
         self.buttonBox = QtWidgets.QDialogButtonBox(parent=Form)
         self.buttonBox.setGeometry(QtCore.QRect(220, 420, 166, 25))
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.StandardButton.Cancel|QtWidgets.QDialogButtonBox.StandardButton.Ok)
@@ -134,3 +134,4 @@ class Ui_UAVInfo(object):
         self.label_title_ramAllocated.setText(_translate("Form", "Ram Allocated"))
         self.label_title_cpuCapacity.setText(_translate("Form", "CPU Capacity"))
         self.label_title_cpuAllocated.setText(_translate("Form", "CPU Allocated"))
+        self.label_title_microservices.setText(_translate("Form", "Microservices Deployed"))
