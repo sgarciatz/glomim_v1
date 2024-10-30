@@ -59,7 +59,7 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
         self.reloadMicroservices()
 
     def loadExistingScenario(self, MainWindow):
-        fname = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file', '/home/santiago/Documents/Trabajo/Workspace/GLOMIM/glomim_v1/InputScenarios/',"JSON files (*.json)")
+        fname = QtWidgets.QFileDialog.getOpenFileName(self, 'Open file', '../InputScenarios/',"JSON files (*.json)")
 
         Database(Scenario.loadJSON(fname[0]))
 
@@ -174,7 +174,7 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
                 croppedPixmap = pixmap.scaled(shape).copy(column * croppingSize.width(), row * croppingSize.height(), croppingSize.width(), croppingSize.height())
                 # Check if there exists an UAV in the current tile
                 backgroundImg : QtGui.QImage = croppedPixmap.toImage()
-                heatImg : QtGui.QImage = QtGui.QPixmap(f'/home/santiago/Documents/Trabajo/Workspace/GLOMIM/glomim_v1/AuxImages/heatmaps/heatmap{int(microservice.heatmap[row][column])}.png').toImage()
+                heatImg : QtGui.QImage = QtGui.QPixmap(f'../AuxImages/heatmaps/heatmap{int(microservice.heatmap[row][column])}.png').toImage()
                 painter: QtGui.QPainter = QtGui.QPainter(backgroundImg)
                 painter.drawImage(backgroundImg.rect(), heatImg)
                 painter.end()
@@ -209,9 +209,9 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
                     croppingSize.height())
 
                 if (self.thereIsUAV([row, column])):
-                    uavImg : QtGui.QImage = QtGui.QPixmap('/home/santiago/Documents/Trabajo/Workspace/GLOMIM/glomim_v1/AuxImages/uav.png').toImage()
+                    uavImg : QtGui.QImage = QtGui.QPixmap('../AuxImages/uav.png').toImage()
                     if(self.msDeployedInUAVinPos([row, column])):
-                        uavImg : QtGui.QImage = QtGui.QPixmap('/home/santiago/Documents/Trabajo/Workspace/GLOMIM/glomim_v1/AuxImages/uav_d.png').toImage()
+                        uavImg : QtGui.QImage = QtGui.QPixmap('../AuxImages/uav_d.png').toImage()
                     backgroundImg : QtGui.QImage = croppedPixmap.toImage()
                     painter: QtGui.QPainter = QtGui.QPainter(backgroundImg)
                     painter.drawImage(backgroundImg.rect(), uavImg)
