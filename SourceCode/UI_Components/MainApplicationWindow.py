@@ -141,7 +141,7 @@ class MainApplicationWindow(QtWidgets.QMainWindow, Ui_MainApplication):
                 # Check if there exists an UAV in the current tile
                 if (self.thereIsUAV([row, column])):
                     backgroundImg : QtGui.QImage = croppedPixmap.toImage()
-                    uavImg : QtGui.QImage = QtGui.QPixmap('/home/santiago/Documents/Trabajo/Workspace/GLOMIM/glomim_v1/AuxImages/uav.png').toImage()
+                    uavImg : QtGui.QImage = QtGui.QPixmap('../AuxImages/uav.png').toImage()
                     painter: QtGui.QPainter = QtGui.QPainter(backgroundImg)
                     painter.drawImage(backgroundImg.rect(), uavImg)
                     painter.end()
